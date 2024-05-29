@@ -9,7 +9,7 @@ Available at [Link](https://bgeigiezen.safecast.jp/store-2/bgeigienano/)
 * Easy to program and change code for other APIs due to the USB-C connector.
 * Needs to be soldered together to use it.
 
-![alt text](https://bgeigiezen.safecast.jp/wp-content/uploads/2024/05/S5560001-989x1024.jpg "bGeigieCast Kit")
+[![Alt text](https://bgeigiezen.safecast.jp/wp-content/uploads/2024/05/S5560001-989x1024.jpg)](https://bgeigiezen.safecast.jp/store-2/bgeigienano/)
 
 
 User manual and other documentation on the Github Wiki:
