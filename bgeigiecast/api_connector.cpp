@@ -13,8 +13,7 @@
 ApiConnector::ApiConnector(LocalStorage& config) :
     Handler(),
     _config(config),
-    _last_success_send(0),
-    _current_default_response(e_api_reporter_idle) {
+    _payload("") {
 }
 
 bool ApiConnector::time_to_send(unsigned offset) const {
@@ -45,7 +44,6 @@ bool ApiConnector::activate(bool retry) {
 }
 
 void ApiConnector::deactivate() {
-  _current_default_response = e_api_reporter_idle;
   WiFiConnection::disconnect_wifi();
 }
 
@@ -54,51 +52,52 @@ int8_t ApiConnector::handle_produced_work(const worker_map_t& workers) {
 
   if(!geigie_connector || !geigie_connector->is_fresh()) {
     // No fresh data
-    return _current_default_response;
+    return e_handler_idle;
   }
 
   if(!time_to_send()) {
     if (time_to_send(6000)) {
-      // almost time to send, start wifi if not connected yet
+      // almost time to send, start Wi-Fi if not connected yet
       activate(true);
     }
-    return _current_default_response;
+    return e_handler_idle;
   }
 
   const auto& reading = geigie_connector->get_data();
 
-  if(reading.valid_reading()) {
-    if (_config.get_use_home_location() && !reading
-        .near_coordinates(_config.get_home_latitude(), _config.get_home_longitude(), HOME_LOCATION_PRECISION_KM)) {
-      // Reading not near home location
-      DEBUG_PRINTLN("Reading not near configured home location");
-      return _current_default_response;
-    }
-    const unsigned long time_at_send = millis();
-    _current_default_response = send_reading(reading);
-
-    if (_current_default_response == e_api_reporter_send_success) {
-      _last_success_send = time_at_send;
-    }
+  if(!reading.valid_reading()) {
+    return e_handler_idle;
   }
-  return _current_default_response;
-}
 
-ApiConnector::ApiHandlerStatus ApiConnector::send_reading(const Reading& reading) {
+  if (_config.get_use_home_location() && !reading
+      .near_coordinates(_config.get_home_latitude(), _config.get_home_longitude(), HOME_LOCATION_PRECISION_KM)) {
+    // Reading not near home location
+    DEBUG_PRINTLN("Reading not near configured home location");
+    return e_handler_idle;
+  }
+
+  // All checks good, prep send data
+
+  if(!reading_to_json(reading, _payload)) {
+    DEBUG_PRINTLN("Unable to send, reading to payload conversion error");
+    return e_api_reporter_error_to_json;
+  }
 
   if(!WiFi.isConnected() && !activate(true)) {
     DEBUG_PRINTLN("Unable to send, lost connection");
     return e_api_reporter_error_not_connected;
   }
 
+  return start_task("api_send", 2048 * 4, 3, 0);
+}
+
+
+int8_t ApiConnector::handle_async() {
+
   HTTPClient http;
 
   char url[100];
-  sprintf(url,
-          "%s?api_key=%s&%s",
-          API_MEASUREMENTS_ENDPOINT,
-          _config.get_api_key(),
-          _config.get_use_dev() ? "test=true" : "");
+  sprintf(url, "%s?api_key=%s", API_MEASUREMENTS_ENDPOINT, _config.get_api_key());
 
   //Specify destination for HTTP request
   if(!http.begin(url)) {
@@ -107,34 +106,27 @@ ApiConnector::ApiHandlerStatus ApiConnector::send_reading(const Reading& reading
     return e_api_reporter_error_remote_not_available;
   }
 
-  char payload[200];
 
-  if(!reading_to_json(reading, payload)) {
-    return e_api_reporter_error_to_json;
-  }
-
-  char content_length[5];
-
-  sprintf(content_length, "%d", strlen(payload));
-
+  http.setUserAgent(HEADER_API_USER_AGENT);
   http.addHeader("Host", API_HOST);
   http.addHeader("Content-Type", HEADER_API_CONTENT_TYPE);
-  http.addHeader("User-Agent", HEADER_API_USER_AGENT);
-  http.addHeader("Content-Length", content_length);
 
-  int httpResponseCode = http.POST(payload);
+  int httpResponseCode = http.POST(_payload);
+
+  auto now = millis();
 
   String response = http.getString();
-  DEBUG_PRINTF("POST complete, status %d\r\nrepsonse: \r\n\r\n%s\r\n\r\n", httpResponseCode, response.c_str());
+  DEBUG_PRINTF("POST complete, status %d\r\nresponse: \r\n\r\n%s\r\n\r\n", httpResponseCode, response.c_str());
   http.end();  //Free resources
 
   if (!_config.get_wifi_server() && _config.get_send_frequency() != e_api_send_frequency_5_sec) {
-    // Disconnect from wifi between readings (not needed when sending every 5 seconds)
+    // Disconnect from Wi-Fi between readings (not needed when sending every 5 seconds)
     WiFiConnection::disconnect_wifi();
   }
 
   switch(httpResponseCode) {
     case 200 ... 204:
+      _last_success_send = now;
       return e_api_reporter_send_success;
     case 400:
       return e_api_reporter_error_server_rejected_post_400;
@@ -171,4 +163,5 @@ bool ApiConnector::reading_to_json(const Reading& reading, char* out) {
   );
   return true;
 }
+
 

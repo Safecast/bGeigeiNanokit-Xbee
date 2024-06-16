@@ -1,7 +1,7 @@
 #ifndef USER_CONFIG_H
 #define USER_CONFIG_H
 
-#define BGEIGIECAST_VERSION "1.4"
+#define BGEIGIECAST_VERSION "1.5"
 
 /** System config **/
 #define DEBUG_BAUD 115200
@@ -43,12 +43,13 @@
 /** Default ESP configurations **/
 #define D_DEVICE_ID             0
 #define D_ACCESS_POINT_PASSWORD "safecast"
-#define D_WIFI_SSID             "KittyWood LTE2"
-#define D_WIFI_PASSWORD         "schatjeyuka"
-#define D_APIKEY                "q1LKu7RQ8s5pmyxunnDW "
-#define D_USE_DEV_SERVER        false
+#define D_WIFI_SSID             "your_wifi_ssid"
+#define D_WIFI_PASSWORD         "yourwifipassword"
+#define D_APIKEY                ""
 #define D_LED_COLOR_BLIND       false
 #define D_LED_COLOR_INTENSITY   30
 #define D_WIFI_SERVER           false
+#define D_SAVED_STATE           Controller::k_savable_MobileMode
+#define D_SEND_FREQUENCY        ApiConnector::e_api_send_frequency_5_min
 
 #endif

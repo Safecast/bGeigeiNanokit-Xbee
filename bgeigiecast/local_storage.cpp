@@ -7,9 +7,6 @@
 #include "bgeigie_connector.h"
 #include "api_connector.h"
 
-#define D_SAVED_STATE Controller::k_savable_MobileMode
-#define D_SEND_FREQUENCY ApiConnector::e_api_send_frequency_5_min
-
 const char* memory_name = "data";
 
 // Keys for config
@@ -18,7 +15,6 @@ const char* key_ap_password = "ap_password";
 const char* key_wifi_ssid = "wifi_ssid";
 const char* key_wifi_password = "wifi_password";
 const char* key_api_key = "api_key";
-const char* key_use_dev = "use_dev";
 const char* key_send_frequency = "send_frequency";
 const char* key_led_color_blind = "led_color_blind";
 const char* key_wifi_server = "wifi_server";
@@ -37,7 +33,6 @@ LocalStorage::LocalStorage() :
     _wifi_ssid(""),
     _wifi_password(""),
     _api_key(""),
-    _use_dev(D_USE_DEV_SERVER),
     _send_frequency(D_SEND_FREQUENCY),
     _led_color_blind(D_LED_COLOR_BLIND),
     _led_color_intensity(D_LED_COLOR_INTENSITY),
@@ -57,7 +52,6 @@ void LocalStorage::reset_defaults() {
     set_wifi_ssid(D_WIFI_SSID, true);
     set_wifi_password(D_WIFI_PASSWORD, true);
     set_api_key(D_APIKEY, true);
-    set_use_dev(D_USE_DEV_SERVER, true);
     set_send_frequency(D_SEND_FREQUENCY, true);
     set_led_color_blind(D_LED_COLOR_BLIND, true);
     set_led_color_intensity(D_LED_COLOR_INTENSITY, true);
@@ -105,10 +99,6 @@ uint8_t LocalStorage::get_led_color_intensity() const {
 
 bool LocalStorage::get_wifi_server() const {
   return _wifi_server;
-}
-
-bool LocalStorage::get_use_dev() const {
-  return _use_dev;
 }
 
 uint8_t LocalStorage::get_send_frequency() const {
@@ -191,18 +181,6 @@ void LocalStorage::set_api_key(const char* api_key, bool force) {
       _memory.end();
     } else {
       DEBUG_PRINTLN("unable to save new value for api_key");
-    }
-  }
-}
-
-void LocalStorage::set_use_dev(bool use_dev, bool force) {
-  if(force || (use_dev != _use_dev)) {
-    if(_memory.begin(memory_name)) {
-      _use_dev = use_dev;
-      _memory.putBool(key_use_dev, use_dev);
-      _memory.end();
-    } else {
-      DEBUG_PRINTLN("unable to save new value for use_dev");
     }
   }
 }
@@ -343,7 +321,6 @@ bool LocalStorage::activate(bool) {
   if(_memory.getString(key_api_key, _api_key, CONFIG_VAL_MAX) == 0) {
     strcpy(_api_key, D_APIKEY);
   }
-  _use_dev = _memory.getBool(key_use_dev, D_USE_DEV_SERVER);
   _send_frequency = _memory.getUChar(key_send_frequency, D_SEND_FREQUENCY);
   _led_color_blind = _memory.getBool(key_led_color_blind, D_LED_COLOR_BLIND);
   _led_color_intensity = _memory.getUChar(key_led_color_intensity, D_LED_COLOR_INTENSITY);

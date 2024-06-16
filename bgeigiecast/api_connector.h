@@ -21,7 +21,6 @@ class ApiConnector : public Handler {
    * Collection of statuses for the api data handling, default is idle.
    */
   enum ApiHandlerStatus {
-    e_api_reporter_idle,
     e_api_reporter_send_success,
     e_api_reporter_error_to_json,
     e_api_reporter_error_not_connected,
@@ -66,18 +65,17 @@ class ApiConnector : public Handler {
 
   bool reading_to_json(const Reading& reading, char* out);
 
- private:
-
   /**
    * Send a reading to the API
-   * @param reading: reading to send
-   * @return: true if the API call was successful
+   * @return: status
    */
-  ApiHandlerStatus send_reading(const Reading& reading);
+  int8_t handle_async() override;
+
+ private:
 
   LocalStorage& _config;
+  char _payload[200];
   uint32_t _last_success_send;
-  ApiHandlerStatus _current_default_response;
 };
 
 #endif //BGEIGIECAST_APICONNECTOR_H

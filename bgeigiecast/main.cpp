@@ -50,14 +50,12 @@ Contact: Jelle Bouwhuis (email jellebouwhuis@outlook.com) and Rob Oudendijk (rob
 #include "configuration_server.h"
 #include "mode_led.h"
 
-#ifndef BGEIGIE_SERIAL
-#define BGEIGIE_SERIAL Serial2
-#endif
+HardwareSerial& bGeigieSerialConnection = Serial2;
 
 LocalStorage config;
 
 // Workers
-BGeigieConnector bgeigie_connector(BGEIGIE_SERIAL);
+BGeigieConnector bgeigie_connector(bGeigieSerialConnection);
 ConfigWebServer config_server(config);
 Button mode_button(MODE_BUTTON_PIN);
 
@@ -140,8 +138,8 @@ void setup() {
 
   /// Hardware configurations
   // Start serial connection to bGeigie controller
-  BGEIGIE_SERIAL.setRxBufferSize(1024);
-  BGEIGIE_SERIAL.begin(BGEIGIE_CONNECTION_BAUD);
+  bGeigieSerialConnection.setRxBufferSize(1024);
+  bGeigieSerialConnection.begin(BGEIGIE_CONNECTION_BAUD);
 
   // Set gpio pin configurations
   gpio_config_t io_conf{

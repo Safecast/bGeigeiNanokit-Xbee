@@ -102,4 +102,13 @@ class ResetState : public ControllerState {
   void handle_event(Event_enum event_id) override;
 };
 
+
+extern InitializeState InitializeState_i;
+extern InitReadingState InitReadingState_i;
+extern PostInitializeState PostInitializeState_i;
+extern ConfigurationModeState ConfigurationModeState_i;
+extern MobileModeState MobileModeState_i;
+extern FixedModeState FixedModeState_i;
+extern ResetState ResetState_i;
+
 #endif //BGEIGIECAST_SM_C_CONCRETE_STATES_H

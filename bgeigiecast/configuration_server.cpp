@@ -85,8 +85,7 @@ void ConfigWebServer::add_urls() {
         _config.get_wifi_ssid(),
         _config.get_wifi_password(),
         _config.get_api_key(),
-        _config.get_send_frequency(),
-        _config.get_use_dev()
+        _config.get_send_frequency()
     ));
   });
 
@@ -169,9 +168,6 @@ void ConfigWebServer::handle_save() {
   }
   if(_server.hasArg(FORM_NAME_API_KEY)) {
     _config.set_api_key(_server.arg(FORM_NAME_API_KEY).c_str(), false);
-  }
-  if(_server.hasArg(FORM_NAME_USE_DEV)) {
-    _config.set_use_dev(_server.arg(FORM_NAME_USE_DEV) == "1", false);
   }
   if(_server.hasArg(FORM_NAME_SEND_FREQ)){
     _config.set_send_frequency(_server.arg(FORM_NAME_SEND_FREQ).toInt(), false);

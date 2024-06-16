@@ -75,8 +75,7 @@ class HttpPages {
       const char* wifi_ssid,
       const char* wifi_password,
       const char* api_key,
-      uint8_t send_frequency,
-      bool use_dev
+      uint8_t send_frequency
   );
 
   /**

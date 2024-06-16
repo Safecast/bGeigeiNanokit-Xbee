@@ -30,8 +30,8 @@ ModeLED::ModeLED(LocalStorage& config) :
         {{127, 000, 127}, {127, 000, 127}}, // config
         {{000, 100, 255}, {000, 100, 255}}, // mobile
         {{000, 255, 000}, {000, 255, 000}}, // fixed_connected
-        {{127, 127, 000}, {127, 127, 000}}, // fixed_soft_error
-        {{255, 000, 000}, {255, 000, 000}}, // fixed_hard_error
+        {{127, 127, 000}, {127, 127, 000}}, // fixed_connection_error
+        {{255, 000, 000}, {255, 000, 000}}, // nano_error
     } {
 }
 
@@ -47,8 +47,7 @@ void ModeLED::set_color(ModeLED::ModeColor _color) {
   static ModeColor _last = mode_color_off;
   if(_color != _last) {
     _last = _color;
-    DEBUG_PRINT("Changed LED to ");
-    DEBUG_PRINTLN(_color);
+//    DEBUG_PRINTF("Changed LED to %d\n", _color);
     set(_config.is_led_color_blind() ? _colorTypes[_color].color_blind : _colorTypes[_color].normal);
   }
 }
@@ -133,6 +132,10 @@ void ModeLED::handle_report(const worker_map_t& workers, const handler_map_t& ha
         return;
       }
       switch(handlers.at(k_handler_api_reporter)->get_status()) {
+        case ApiConnector::e_handler_processing:
+          /// Fixed mode - Async sending to api, blink furiously
+          set_values(mode_color_fixed_connected, 5);
+          return;
         case ApiConnector::e_api_reporter_error_not_connected:
           /// Fixed mode - Lost connection to wifi, blink connected again
           set_values(mode_color_fixed_connected, 1, 25);
@@ -146,12 +149,12 @@ void ModeLED::handle_report(const worker_map_t& workers, const handler_map_t& ha
           set_values(mode_color_fixed_soft_error);
           return;
         case ApiConnector::e_api_reporter_send_success:
-        default:
           /// Fixed mode - All good and connected
           set_values(mode_color_fixed_connected);
           return;
+        default:
+          return;
       }
-      return;
     }
     case SystemStateId::k_state_ResetState:
       /// Reset - Display red because its least used
