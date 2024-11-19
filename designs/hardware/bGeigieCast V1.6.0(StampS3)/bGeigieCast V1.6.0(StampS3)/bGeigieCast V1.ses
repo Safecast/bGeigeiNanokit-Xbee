@@ -1,0 +1,163 @@
+
+(session "bGeigieCast V1.6.0(StampS3).ses"
+  (base_design "bGeigieCast V1.6.0(StampS3).dsn")
+  (placement
+    (resolution um 10)
+    (component "digikey-footprints:XBEE-20_THT"
+      (place U2 1484000 -1083500 front 0)
+    )
+    (component Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical
+      (place J1 1407960 -1045920 front 0)
+    )
+    (component Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical::1
+      (place J2 1560500 -1045920 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "7.99.0-unknown-556120554e~172~ubuntu22.04.1")
+    )
+    (library_out 
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle Top 8000 0 0)
+        )
+        (shape
+          (circle Bottom 8000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_1000:500_um"
+        (shape
+          (circle Top 10000 0 0)
+        )
+        (shape
+          (circle Bottom 10000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_800:400_um"
+        (shape
+          (circle Top 8000 0 0)
+        )
+        (shape
+          (circle Bottom 8000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_1000:500_um"
+        (shape
+          (circle Top 10000 0 0)
+        )
+        (shape
+          (circle Bottom 10000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net GND
+        (wire
+          (path Top 2500
+            1560500 -1172920
+            1560500 -1161169
+          )
+        )
+        (wire
+          (path Top 2500
+            1560500 -1161169
+            1564172 -1161169
+            1576957 -1148384
+            1576957 -970086
+            1550781 -943910
+            1428542 -943910
+            1392910 -979542
+            1392910 -1154590
+            1374000 -1173500
+          )
+        )
+      )
+      (net "Net-(J2-Pin_8)"
+        (wire
+          (path Bottom 2500
+            1560500 -1071320
+            1560500 -1059569
+          )
+        )
+        (wire
+          (path Top 2500
+            1403720 -956876
+            1387923 -972673
+            1387923 -999577
+            1374000 -1013500
+          )
+        )
+        (via "Via[0-1]_800:400_um" 1403720 -956876
+        )
+        (wire
+          (path Bottom 2500
+            1560500 -1059569
+            1568579 -1059569
+            1572440 -1055708
+            1572440 -965774
+            1550746 -944080
+            1416516 -944080
+            1403720 -956876
+          )
+        )
+      )
+      (net "Net-(J2-Pin_9)"
+        (wire
+          (path Top 2500
+            1560500 -1084969
+            1564172 -1084969
+            1572252 -1076889
+            1572252 -971918
+            1548746 -948412
+            1430407 -948412
+            1404663 -974156
+            1404663 -978514
+          )
+        )
+        (wire
+          (path Bottom 2500
+            1374000 -1033500
+            1404663 -1002837
+            1404663 -978514
+          )
+        )
+        (wire
+          (path Top 2500
+            1560500 -1096720
+            1560500 -1084969
+          )
+        )
+        (via "Via[0-1]_800:400_um" 1404663 -978514
+        )
+      )
+      (net +3.3V
+        (wire
+          (path Bottom 2500
+            1374000 -993500
+            1377350 -993500
+            1422268 -948582
+            1548738 -948582
+            1567879 -967723
+            1567879 -1026790
+            1560500 -1034169
+          )
+        )
+        (wire
+          (path Bottom 2500
+            1560500 -1045920
+            1560500 -1034169
+          )
+        )
+      )
+    )
+  )
+)

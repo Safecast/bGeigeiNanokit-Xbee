@@ -10,6 +10,11 @@
 #define POST_INITIALIZE_DURATION 4000
 
 /** Hardware pins settings **/
+<<<<<<< HEAD
+#define RGB_LED_PIN_R 27
+#define RGB_LED_PIN_G 28
+#define RGB_LED_PIN_B 29
+=======
 #ifndef MODE_BUTTON_PIN
 #define MODE_BUTTON_PIN 0u
 #endif
@@ -25,6 +30,7 @@
 #define CHANNEL_FREQUENCY 12800
 #define CHANNEL_RESOLUTION 8
 #endif //USE_FASTLED
+>>>>>>> 19db055ad74dc80f637f43bf08fee7929738abcf
 
 
 /** API connector settings **/

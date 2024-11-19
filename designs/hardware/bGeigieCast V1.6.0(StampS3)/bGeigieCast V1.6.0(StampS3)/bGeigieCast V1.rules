@@ -1,0 +1,113 @@
+
+(rules PCB bGeigieCast V1
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 31)
+    (layer_rule Top
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.1)
+    )
+    (layer_rule Bottom
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.9)
+    )
+  )
+  (rule
+    (width 250.0)
+    (clear 200.0)
+    (clear 125.0 (type smd_to_turn_gap))
+    (clear 50.0 (type smd-smd))
+  )
+  (padstack "Via[0-1]_800:400_um"
+    (shape
+      (circle Top 800.0 0.0 0.0)
+    )
+    (shape
+      (circle Bottom 800.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (padstack "Via[0-1]_1000:500_um"
+    (shape
+      (circle Top 1000.0 0.0 0.0)
+    )
+    (shape
+      (circle Bottom 1000.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_800:400_um" "Via[0-1]_800:400_um" default
+  )
+  (via 
+    "Via[0-1]_1000:500_um" "Via[0-1]_1000:500_um" default
+  )
+  (via 
+    "Via[0-1]_800:400_um-kicad_default" "Via[0-1]_800:400_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_1000:500_um-kicad_default" "Via[0-1]_1000:500_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_800:400_um-Power" "Via[0-1]_800:400_um" Power
+  )
+  (via 
+    "Via[0-1]_1000:500_um-Power" "Via[0-1]_1000:500_um" Power
+  )
+  (via_rule
+    default "Via[0-1]_800:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_800:400_um-kicad_default"
+  )
+  (via_rule
+    Power "Via[0-1]_1000:500_um-Power"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer Top Bottom)
+    )
+  )
+  (class "kicad_default"
+    "unconnected-(U2-DIO12-Pad4)" "unconnected-(U2-RESET-Pad5)" "unconnected-(U2-RSSI-Pad6)" "unconnected-(U2-DIO11-Pad7)" "unconnected-(U2-RES@8-Pad8)" "unconnected-(U2-DTR-Pad9)" "unconnected-(U2-DIO4-Pad11)" "unconnected-(U2-CTS-Pad12)"
+    "unconnected-(U2-DIO9-Pad13)" "unconnected-(U2-RES@14-Pad14)" "unconnected-(U2-DIO5-Pad15)" "unconnected-(U2-RTS-Pad16)" "unconnected-(U2-DIO3-Pad17)" "unconnected-(U2-DIO2-Pad18)" "unconnected-(U2-DIO1-Pad19)" "unconnected-(U2-DIO0-Pad20)"
+    "unconnected-(J1-Pin_6-Pad1)" GND "Net-(J2-Pin_8)" "Net-(J2-Pin_9)" "unconnected-(J1-Pin_5-Pad2)" "unconnected-(J1-Pin_4-Pad3)" "unconnected-(J1-Pin_3-Pad4)" "unconnected-(J1-Pin_2-Pad5)"
+    "unconnected-(J1-Pin_1-Pad6)" +3.3V "unconnected-(J2-Pin_10-Pad10)" "unconnected-(J2-Pin_11-Pad11)"
+    (clearance_class "kicad_default")
+    (via_rule "kicad_default")
+    (rule
+      (width 250.0)
+    )
+    (circuit 
+      (use_layer Top Bottom)
+    )
+  )
+  (class Power
+    (clearance_class Power)
+    (via_rule Power)
+    (rule
+      (width 500.0)
+    )
+    (circuit 
+      (use_layer Top Bottom)
+    )
+  )
+)
