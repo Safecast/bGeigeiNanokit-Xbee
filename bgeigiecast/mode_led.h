@@ -44,8 +44,8 @@ class ModeLED : private RGBLed, public Supervisor {
 
  private:
   typedef struct {
-    RGB normal;
-    RGB color_blind;
+    RGB_e normal;
+    RGB_e color_blind;
   } ColorType;
 
   uint8_t get_intensity() const override;

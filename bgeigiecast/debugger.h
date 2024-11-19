@@ -2,13 +2,13 @@
 #define BGEIGIECAST_DEBUGGER_H
 
 #include "user_config.h"
+#include <Arduino.h>
 
 #ifdef UNIT_TEST
 #undef ENABLE_DEBUG
 #endif
 
 #if ENABLE_DEBUG
-#include <Arduino.h>
 
 #ifndef DEBUG_STREAM
 #define DEBUG_STREAM Serial

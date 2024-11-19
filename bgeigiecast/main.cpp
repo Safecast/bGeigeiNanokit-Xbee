@@ -134,10 +134,11 @@ void mode_led_loop(void* param) {
 }
 
 void setup() {
-  DEBUG_BEGIN(SERIAL_BAUD);
+  DEBUG_BEGIN(DEBUG_BAUD);
 
   /// Hardware configurations
   // Start serial connection to bGeigie controller
+  bGeigieSerialConnection.setRxBufferSize(1024);
   bGeigieSerialConnection.begin(BGEIGIE_CONNECTION_BAUD);
 
   // Set gpio pin configurations

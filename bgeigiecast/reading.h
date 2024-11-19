@@ -31,14 +31,6 @@ class Reading {
   Reading& operator=(const Reading& other);
 
   /**
-   * Get this reading as a json object in string
-   * @param out: output param
-   * @param fixed: if the device is in fixed mode, it will add 60000 to the device id
-   * @return: success / not
-   */
-  bool as_json(char* out = nullptr);
-
-  /**
    * Clear this reading
    */
   void reset();

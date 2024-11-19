@@ -65,6 +65,7 @@
       35,
       36
     ],
+<<<<<<< HEAD
     "visible_layers": "00290aa_00000001",
     "zone_display_mode": 0
   },
@@ -74,10 +75,16 @@
     "repo_username": "",
     "ssh_key": ""
   },
+=======
+    "visible_layers": "ffdffff_ffffffff",
+    "zone_display_mode": 0
+  },
+>>>>>>> 19db055ad74dc80f637f43bf08fee7929738abcf
   "meta": {
     "filename": "bGeigieCast V1.6.0(StampS3).kicad_prl",
     "version": 3
   },
+<<<<<<< HEAD
   "net_inspector_panel": {
     "col_hidden": [
       false,
@@ -142,5 +149,9 @@
       "text": true,
       "wires": true
     }
+=======
+  "project": {
+    "files": []
+>>>>>>> 19db055ad74dc80f637f43bf08fee7929738abcf
   }
 }

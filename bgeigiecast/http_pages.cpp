@@ -271,8 +271,7 @@ const char* HttpPages::get_config_connection_page(
     const char* wifi_ssid,
     const char* wifi_password,
     const char* api_key,
-    uint8_t send_frequency,
-    bool use_dev
+    uint8_t send_frequency
 ) {
   char ssid[20];
   sprintf(ssid, ACCESS_POINT_SSID, device_id);
@@ -324,18 +323,6 @@ const char* HttpPages::get_config_connection_page(
       "We suggest sending data every 5 minutes for stationary sensors"
       "</span>"
 
-      // Use dev
-      "<label>Safecast server</label>"
-      "<label for='" FORM_NAME_USE_DEV "0' class='pure-radio'>"
-      "<input id='" FORM_NAME_USE_DEV "0' type='radio' name='" FORM_NAME_USE_DEV "' value='0' %s>Production"
-      "</label>"
-      "<label for='" FORM_NAME_USE_DEV "1' class='pure-radio'>"
-      "<input id='" FORM_NAME_USE_DEV "1' type='radio' name='" FORM_NAME_USE_DEV "' value='1' %s>Development"
-      "</label>"
-      "<span class='pure-form-message'>"
-      "Use development for testing purposes. Double check your API key when changing this option!"
-      "</span>"
-
       "<br>"
       "<button type='submit' class='pure-button pure-button-primary'>Save</button>"
       "</fieldset>"
@@ -349,8 +336,6 @@ const char* HttpPages::get_config_connection_page(
       send_frequency == ApiConnector::e_api_send_frequency_5_sec ? "checked" : "",
       send_frequency == ApiConnector::e_api_send_frequency_1_min ? "checked" : "",
       send_frequency == ApiConnector::e_api_send_frequency_5_min ? "checked" : "",
-      use_dev ? "" : "checked",
-      use_dev ? "checked" : "",
       display_success ? success_message : ""
   );
 }
